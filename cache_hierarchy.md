@@ -49,6 +49,25 @@ Cache nhiều cấp giúp cân bằng giữa tốc độ, dung lượng và chi 
 - L2 cache: Lớn hơn L1, tốc độ chậm hơn một chút, nhưng giảm số lần truy cập RAM.
 - L3 cache: Chia sẻ giữa nhiều lõi CPU, giúp giảm số lần truy cập bộ nhớ chính.
 
+Trong khi bộ nhớ đệm L1, L2 và L3 đều sử dụng SRAM, sự khác biệt về tốc độ, độ trễ và thời gian truy cập của chúng xuất phát từ một số lựa chọn thiết kế kiến ​​trúc.
+
+Gần CPU (Khoảng cách vật lý)  
+- Bộ nhớ đệm L1 được tích hợp trực tiếp bên trong lõi CPU và gần nhất với các đơn vị thực thi.
+- Bộ nhớ đệm L2 vẫn nằm trong chip CPU nhưng nằm xa hơn một chút so với đường ống thực thi.
+- Bộ nhớ đệm L3 được chia sẻ trên nhiều lõi CPU và nằm xa hơn nữa trên khuôn CPU.  
+-> Gần CPU hơn = Truy cập nhanh hơn (đường dẫn điện ngắn hơn, độ trễ thấp hơn).
+
+Đánh đổi giữa kích thước bộ nhớ đệm và tốc độ:  
+- Bộ nhớ đệm nhỏ hơn nhanh hơn vì tìm kiếm dữ liệu mất ít thời gian hơn.
+- Bộ nhớ đệm lớn hơn cần mạch phức tạp hơn (nhiều bóng bán dẫn hơn để lập chỉ mục), tăng độ trễ.  
+-> Kích thước nhỏ hơn = Ít thời gian cần thiết để tìm và truy cập dữ liệu.
+
+Tốc độ xung nhịp và giới hạn công suất:  
+- Bộ nhớ đệm L1 được thiết kế để chạy ở tốc độ CPU tối đa, nghĩa là nó cần phải cực nhanh và công suất thấp để tránh làm chậm quá trình thực thi.
+- Bộ nhớ đệm L2 và L3 hoạt động ở tốc độ thấp hơn để cân bằng giữa mức tiêu thụ điện năng và hiệu quả.  
+-> L1 phải theo kịp xung nhịp CPU, do đó nó được tối ưu hóa để đạt tốc độ cực cao, trong khi L2/L3 ưu tiên dung lượng và hiệu quả công suất.
+
+
 Việc sử dụng nhiều cấp độ cache giúp tận dụng lợi ích của cả hai loại bộ nhớ: tốc độ cao của SRAM và dung lượng lớn của DRAM.
 
 1.3. Tính cục bộ của dữ liệu (Principle of Locality)
@@ -65,8 +84,7 @@ Cache nhiều cấp hỗ trợ hiệu quả hơn trong việc tận dụng nguy�
 
 1.4. Cải thiện hiệu suất tổng thể (Overall Performance Boost)
 
-Cache nhiều cấp giúp giảm số lần truy cập bộ nhớ chính (giảm miss rate) và tăng tốc độ thực thi của CPU. Một số điểm lợi ích chính: \
-Giảm số lần truy cập bộ nhớ chính:
+Cache nhiều cấp giúp giảm số lần truy cập bộ nhớ chính (giảm miss rate) và tăng tốc độ thực thi của CPU. Một số điểm lợi ích chính giúp giảm số lần truy cập bộ nhớ chính:
 - Nếu CPU có thể lấy dữ liệu từ L1 cache (~1-4 cycle), nó có thể tiếp tục xử lý ngay lập tức.
 - Nếu L1 cache bị miss, CPU sẽ tìm trong L2 cache (~10 cycle).
 - Nếu L2 cache cũng bị miss, nó tìm trong L3 cache (~30-50 cycle).
