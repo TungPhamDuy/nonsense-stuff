@@ -2,20 +2,20 @@
 
 Các câu hỏi mà chúng mình sẽ target trong bài viết này là:
 
-1. Lý do cần cache nhiều cấp
-1.1. Hiện tượng "Memory Gap"
-1.2. Sự đánh đổi giữa tốc độ, kích thước và chi phí của bộ nhớ
-1.3. Tính cục bộ của dữ liệu
-1.4. Cải thiện hiệu suất tổng thể
-1.5. Xu hướng hiện đại và nhu cầu của các hệ thống đa lõi
-2. Cấu trúc cache nhiều cấp
-2.1. L1 cache: nhỏ, nhanh
-2.2. L2 cache: lớn hơn, giảm miss rate
-2.3. L3 cache: trên hệ thống đa lõi
-3. Cache phân chia (banked) vs cache hợp nhất (unified)
-4. Phân tích hiệu suất cache nhiều cấp
-4.1. Miss rate local vs global
-4.2. Công thức AMAT cho cache nhiều cấp
+1. Lý do cần cache nhiều cấp \
+1.1. Hiện tượng "Memory Gap" \
+1.2. Sự đánh đổi giữa tốc độ, kích thước và chi phí của bộ nhớ \
+1.3. Tính cục bộ của dữ liệu \
+1.4. Cải thiện hiệu suất tổng thể \
+1.5. Xu hướng hiện đại và nhu cầu của các hệ thống đa lõi \
+2. Cấu trúc cache nhiều cấp \
+2.1. L1 cache: nhỏ, nhanh \
+2.2. L2 cache: lớn hơn, giảm miss rate \
+2.3. L3 cache: trên hệ thống đa lõi \
+3. Cache phân chia (banked) vs cache hợp nhất (unified) \
+4. Phân tích hiệu suất cache nhiều cấp \
+4.1. Miss rate local vs global \
+4.2. Công thức AMAT cho cache nhiều cấp \
 
 *Đây là phần chuẩn bị của mình trong bài viết về Cache mà nhóm chúng mình thực hiện, bài viết sẽ được upload sau khi hoàn thành và thuyết trình.*
 
@@ -142,45 +142,122 @@ Dưới đây là bảng so sánh các phân cấp cache mà tác giả tổng h
 ![alt text](image/compare_cache_level.png)
 
 
-2.5. Các kiến trúc cache khác
+3. Cache phân chia (banked) vs cache hợp nhất (unified)
 
-Không phải lúc nào CPU cũng chỉ có đúng ba cấp cache (L1, L2, L3). Trên thực tế, số lượng cấp độ cache có thể thay đổi tùy theo kiến trúc vi xử lý, từ không có cache, một cấp cache, hai cấp cache, đến bốn hoặc nhiều cấp cache hơn.
+Trong kiến trúc bộ nhớ đệm, cache có thể được tổ chức theo hai cách chính: \
+- Cache phân chia (Banked Cache) – Chia nhỏ thành các phần riêng biệt để tăng hiệu quả truy xuất.
+- Cache hợp nhất (Unified Cache) – Dùng chung một không gian lưu trữ cho cả dữ liệu và lệnh.
+Mỗi phương pháp đều có ưu và nhược điểm, ảnh hưởng đến hiệu suất của CPU theo các yếu tố như băng thông, độ trễ, hit rate, và mức độ song song.
 
-2.5.1. Trường hợp có ít hơn 3 cấp cache
-1.1. Hệ thống không có cache (0 cấp)
-Trước đây, các CPU đời rất cũ không có cache và phải truy cập trực tiếp vào bộ nhớ chính (RAM). Điều này gây ra độ trễ lớn và làm giảm hiệu suất.
-Một số bộ vi điều khiển (microcontroller) hoặc hệ thống nhúng tối giản cũng có thể không có cache vì chúng được thiết kế để giảm chi phí và tiêu thụ điện năng thay vì tối ưu hiệu suất.
-1.2. CPU chỉ có L1 Cache (1 cấp)
-Những CPU rất cũ (trước thập niên 1990) có chỉ một cấp cache (L1), vì công nghệ lúc đó chưa cho phép tích hợp nhiều cache trong chip một cách hiệu quả.
-Một số vi điều khiển đơn giản vẫn có thể chỉ có L1 cache để tối ưu hóa chi phí và kích thước.
-1.3. CPU có L1 và L2 Cache (2 cấp)
-Một số CPU cũ (~2000s) chỉ có L1 và L2 cache, trong đó:
-L1 cache nhỏ nhưng cực kỳ nhanh.
-L2 cache lớn hơn để giảm số lần truy cập RAM.
-Trước đây, L2 cache thường được đặt bên ngoài CPU trên bo mạch chủ (external cache), nhưng sau này đã được tích hợp vào CPU để tăng tốc độ truy xuất.
-2. Trường hợp có nhiều hơn 3 cấp cache
-2.1. CPU có 4 cấp cache (L1, L2, L3, L4)
-Một số hệ thống cao cấp, đặc biệt là trong máy chủ (server) hoặc bộ xử lý hiệu suất cao (HPC - High Performance Computing), có thể sử dụng 4 cấp cache.
+3.1. Banked cache - Cache phân chia 
 
-🔹 Ví dụ về CPU có L4 cache:
+Định nghĩa: Cache được chia thành các "bank" độc lập, mỗi bank có thể xử lý một phần dữ liệu khác nhau. Cách tổ chức này tăng băng thông và khả năng truy xuất song song, giúp cải thiện hiệu suất trong các hệ thống đa lõi hoặc kiến trúc siêu phân luồng (hyper-threading).
 
-Intel Broadwell (Core i7-5775C, Xeon E7 v4, v5):
-L1: 32KB (per core)
-L2: 256KB (per core)
-L3: 2-6MB (shared)
-L4: eDRAM 128MB (được chia sẻ trên toàn bộ CPU)
-Một số CPU IBM POWER9, AMD EPYC, hoặc Apple M-series cũng có thể có L4 cache.
-🔹 L4 cache thường có các đặc điểm sau:
+Kiểu cache phân chia:
+**Theo chức năng:**
+- Instruction Cache (I-Cache): Chỉ lưu trữ lệnh. \
+- Data Cache (D-Cache): Chỉ lưu trữ dữ liệu.\
+Ví dụ: Hầu hết các CPU hiện đại đều có L1 cache phân chia thành L1I (Instruction Cache) và L1D (Data Cache).\
 
-Dung lượng lớn (hàng chục đến hàng trăm MB).
-Có thể được tích hợp trong CPU hoặc nằm ngoài chip (on-package).
-Được dùng để chia sẻ giữa nhiều lõi hoặc hỗ trợ đồ họa tích hợp (iGPU).
-Tăng tốc cho dữ liệu ít được truy cập hơn nhưng vẫn quan trọng.
+Ưu điểm: \
+- Tối ưu hóa hit rate, giảm xung đột giữa dữ liệu và lệnh. \
+- Tăng hiệu suất pipeline, CPU có thể nạp lệnh và dữ liệu song song. \
+Nhược điểm: Không linh hoạt, nếu một phần (I-Cache hoặc D-Cache) đầy trong khi phần còn lại trống, ta không thể tận dụng không gian trống.
+
+**Theo bank:**
+Cache được chia thành nhiều bank nhỏ, mỗi bank có thể truy cập độc lập, giúp tăng băng thông bộ nhớ cache.
+Thường áp dụng cho L2 và L3 cache trên CPU hiện đại để tăng hiệu quả truy xuất song song.
+Ví dụ: AMD Zen 4 (Ryzen 7000 Series) sử dụng cache L3 chia thành nhiều bank, giúp CPU truy xuất nhanh hơn.
+
+Ưu điểm:\
+- Giảm tắc nghẽn truy cập (cache contention), hệ thống đa lõi có thể truy xuất nhiều bank đồng thời. \
+- Tăng băng thông và khả năng mở rộng. \
+Nhược điểm: \
+- Phức tạp hơn cache hợp nhất, yêu cầu logic quản lý nâng cao. \
+- Có thể gặp vấn đề cache bank conflict nếu nhiều yêu cầu truy cập vào cùng một bank. \
+
+3.2. Unified cache - Cache hợp nhất
+
+Định nghĩa:  Dùng chung một bộ nhớ cache cho cả lệnh và dữ liệu, thay vì tách riêng như banked cache. Phổ biến ở L2, L3 Cache, đặc biệt trên các hệ thống đa lõi. 
+
+Đặc điểm và cách tổ chức: \
+- Tất cả dữ liệu và lệnh được lưu trong cùng một không gian cache. \
+- Có thể linh hoạt sử dụng toàn bộ dung lượng cache cho dữ liệu hoặc lệnh tùy theo nhu cầu.\ 
+
+Ưu điểm: \
+- Linh hoạt hơn – Dung lượng cache có thể phân bổ động cho lệnh hoặc dữ liệu tùy nhu cầu.\ 
+- Tận dụng tối đa không gian cache – Giảm lãng phí khi workload không cân bằng giữa lệnh và dữ liệu. \
+- Đơn giản hóa thiết kế pipeline CPU \
+Nhược điểm: \
+- Có thể gặp xung đột (cache contention) – Nếu dữ liệu và lệnh tranh giành không gian cache, có thể làm giảm hiệu suất.\ 
+- Tăng miss rate trong một số trường hợp – Khi lệnh và dữ liệu truy xuất quá nhiều, cache có thể không đủ chỗ chứa- .\
+
+Bảng dưới đây so sánh những đặc điểm của hai kiểu tổ chức:
+![alt text](image/compare_cache_structure.png)
+
+Khi nào nên dùng bank cache hoặc unified cache?
+Banked cache phù hợp khi:
+- Cần tăng tốc độ truy xuất song song (L1 Cache trên CPU).
+- Tránh xung đột giữa dữ liệu và lệnh (tách biệt I-Cache & D-Cache).
+- Cần băng thông cao (cấu trúc banked cho L3 Cache trên AMD Ryzen).
+Unified cache phù hợp khi:
+- Cần tận dụng linh hoạt không gian cache (L2, L3 trên CPU Intel & AMD).
+- Cần giảm độ phức tạp phần cứng (GPU thường dùng unified cache).
+- Hệ thống đa lõi, nơi nhiều luồng chia sẻ chung L3 Cache.
+
+CPU hiện đại kết hợp cả hai phương pháp, L1 Cache luôn là banked (I-Cache + D-Cache) để tăng hiệu suất. L2 & L3 Cache thường là unified để tối ưu không gian lưu trữ. Còn GPU hiện đại thì ưu tiên unified cache.
+
+4. Phân tích hiệu suất cache nhiều cấp 
+
+Bộ nhớ cache nhiều cấp (L1, L2, L3) giúp tăng tốc độ truy xuất dữ liệu, nhưng hiệu suất của nó phụ thuộc vào miss rate và độ trễ truy cập trung bình (AMAT - Average Memory Access Time). Để đánh giá hiệu suất cache, ta xem xét:
+- Miss rate local vs global – Phân tích tỷ lệ cache miss ở từng cấp.
+- Công thức AMAT cho cache nhiều cấp – Xác định thời gian truy cập trung bình dựa trên hit/miss ở từng mức.
 
 
+4.1. Miss Rate Local và Global \
+Định nghĩa: Tỷ lệ trượt cục bộ là tỷ lệ cache miss tại một cấp cache cụ thể, được tính bằng công thức: 
+$$Local\:Miss\:Rate = \frac{Miss\:count\:at\:cache\:level\:n}{Total\:request\:to\:cache\:level\:n}$$
+
+Định nghĩa: Tỷ lệ trượt toàn cục là tỷ lệ truy xuất bộ nhớ chính (RAM) khi xét toàn bộ hệ thống cache, được tính bằng công thức:
+
+$$Global\:miss\:rate = \frac{Miss\:count\:to\:main\:memory}{Total\:request\:from\:CPU}$$
+
+Ví dụ cụ thể:\
+Giả sử hệ thống có:
+- L1 Cache: Local miss rate = 10%
+- L2 Cache: Local miss rate = 5%
+- L3 Cache: Local miss rate = 2%
+- Tổng số request CPU gửi = 1 triệu lần truy cập bộ nhớ.
+
+Tính Miss Rate Local:
+- L1 Cache: 10% miss → 100,000 request đến L2.
+- L2 Cache: 5% miss → 5,000 request đến L3.
+- L3 Cache: 2% miss → 100 request đến RAM.
+
+Tính Miss Rate Global:
+$$Global\:miss\:rate = \frac{100}{1,000,000} = 0.01\%$$
+
+Dù từng mức cache có tỷ lệ miss, nhưng cache nhiều cấp giúp giảm đáng kể số lần truy xuất RAM.
+
+4.2. Công thức AMAT (Average Memory Access Time) cho cache nhiều cấp 
+
+AMAT thể hiện thời gian truy cập bộ nhớ trung bình, được tính bằng:
+$$AMAT = T_{L1} + (MissRate_{L1} \times T_{L2}) + (MissRate_{L1} \times MissRate_{L2} \times T_{L3}) + (MissRate_{L1} \times MissRate_{L2} \times MissRate_{L3} \times T_{RAM})$$
+
+Ví dụ cụ thể: \
+Giả sử:
+- L1 latency = 1 cycle, L1 miss rate = 10%
+- L2 latency = 5 cycles, L2 miss rate = 5%
+- L3 latency = 20 cycles, L3 miss rate = 2%
+- RAM latency = 100 cycles
+
+Tính AMAT bẳng:
+$$AMAT = 1 + (0.1 \times 5) + (0.1 \times 0.05 \times 20) + (0.1 \times 0.05 \times 0.02 \times 100) \\= 1 + 0.5 + 0.1 + 0.01 = 1.61 \text{ cycles}$$
+
+Nếu không có cache nhiều cấp, AMAT sẽ là 100 cycles (truy cập RAM trực tiếp). Nhờ cache, độ trễ giảm xuống chỉ 1.61 cycles. AMAT cho cache nhiều cấp giúp tối ưu hóa thời gian truy xuất bộ nhớ, giảm đáng kể độ trễ so với truy cập trực tiếp RAM. Hệ thống hiện đại kết hợp cache L1 nhanh, L2/L3 lớn, giúp cân bằng giữa tốc độ và dung lượng.
 
 
-## Tài liệu tham khảo (trích dẫn theo chuẩn APA):
+## Tài liệu tham khảo:
 Bahi, M., & Eisenbeis, C. (2011, October). High performance by exploiting information locality through reverse computing. In 2011 23rd International Symposium on Computer Architecture and High Performance Computing (pp. 25-32). IEEE.
 
 
