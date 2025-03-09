@@ -23,7 +23,7 @@ Các câu hỏi mà chúng mình sẽ target trong bài viết này là:
 
 Bộ nhớ đệm (cache) nhiều cấp là một giải pháp quan trọng trong kiến trúc máy tính nhằm tối ưu hóa hiệu suất truy cập bộ nhớ. Lý do chính dẫn đến việc cần có hệ thống cache nhiều cấp có thể phân tích từ nhiều góc độ: tốc độ truy cập, chi phí phần cứng, đặc điểm của bộ nhớ chính, và nhu cầu xử lý hiệu năng cao của bộ vi xử lý hiện đại.
 
-1.1. Hiện tượng "Memory Gap" (Khoảng cách bộ nhớ)
+**1.1. Hiện tượng "Memory Gap" (Khoảng cách bộ nhớ)**
 
 Bộ vi xử lý hiện đại có tốc độ xử lý rất nhanh, thường được đo bằng đơn vị gigahertz (GHz), trong khi đó bộ nhớ chính (RAM) lại có tốc độ chậm hơn đáng kể. Điều này dẫn đến tình trạng "memory gap" (khoảng cách tốc độ giữa CPU và RAM), khi mà tốc độ tính toán của CPU vượt trội hơn so với tốc độ truy cập bộ nhớ của RAM, dẫn đến việc nếu hoạt động trực tiếp với nhau, CPU sẽ phải chờ RAM thực hiện việc truy cập bộ nhớ xong để có thể tiếp tục hoạt động tính toán của mình. Điều này dẫn đến lãng phí tài nguyên tính toán của CPU, và hệ luỵ là làm chậm hiệu suất tổng thể của toàn bộ hệ thống.
 Dưới đây là biểu đồ thể hiện sự phát triển giữa tốc độ tính toán của CPU và tốc độ truy cập bộ nhớ của RAM từ năm 1980 đến 2006 (Bahi & Eisenbeis, 2011). Sự phát triển không tương quan giữa tốc độ của CPU và RAM đặt ra một vấn đề lớn về tối ưu hiệu suất cho hệ thống. Vậy nên việc áp dụng bộ nhớ đệm nhiều cấp là một trong những giải pháp trong thiết kế kiến trúc máy tính giúp giải quyết bài toán này.
@@ -37,7 +37,7 @@ Dưới đây là một ví dụ trực quan:
 -> Như đã được đề cập ở trên, cache là một bộ nhớ được thiết kế để có thể truy xuất dữ liệu nhanh chóng, nằm giữa CPU và RAM.
 Do đó, cache được sử dụng để giữ các dữ liệu và lệnh được truy cập thường xuyên nhằm giảm thời gian truy xuất bộ nhớ.
 
-1.2. Sự đánh đổi giữa tốc độ, kích thước và chi phí của bộ nhớ
+**1.2. Sự đánh đổi giữa tốc độ, kích thước và chi phí của bộ nhớ**
 
 Các loại bộ nhớ khác nhau có sự đánh đổi giữa tốc độ, dung lượng và chi phí: 
 - Bộ nhớ nhanh (SRAM - Static RAM, dùng trong cache): Có tốc độ cao nhưng đắt tiền và tốn diện tích chip.
@@ -70,7 +70,7 @@ Tốc độ xung nhịp và giới hạn công suất:
 
 Việc sử dụng nhiều cấp độ cache giúp tận dụng lợi ích của cả hai loại bộ nhớ: tốc độ cao của SRAM và dung lượng lớn của DRAM.
 
-1.3. Tính cục bộ của dữ liệu (Principle of Locality)
+**1.3. Tính cục bộ của dữ liệu (Principle of Locality)**
 
 Hệ thống cache tận dụng nguyên lý cục bộ của bộ nhớ để dự đoán dữ liệu nào sẽ được sử dụng tiếp theo. Như đã đề cập ở trên, có hai loại tính cục bộ quan trọng mà cache áp dụng:
 
@@ -82,7 +82,7 @@ Cache nhiều cấp hỗ trợ hiệu quả hơn trong việc tận dụng nguy�
 - L2 cache có thể giữ nhiều dữ liệu hơn, phòng trường hợp L1 cache bị đầy hoặc bị bỏ lỡ.
 - L3 cache hỗ trợ hệ thống đa lõi, giúp giảm thiểu sự chậm trễ do truy cập bộ nhớ chính.
 
-1.4. Cải thiện hiệu suất tổng thể (Overall Performance Boost)
+**1.4. Cải thiện hiệu suất tổng thể (Overall Performance Boost)**
 
 Cache nhiều cấp giúp giảm số lần truy cập bộ nhớ chính (giảm miss rate) và tăng tốc độ thực thi của CPU. Một số điểm lợi ích chính giúp giảm số lần truy cập bộ nhớ chính:
 - Nếu CPU có thể lấy dữ liệu từ L1 cache (~1-4 cycle), nó có thể tiếp tục xử lý ngay lập tức.
@@ -92,13 +92,13 @@ Cache nhiều cấp giúp giảm số lần truy cập bộ nhớ chính (giảm
 Giữ CPU bận rộn thay vì chờ đợi dữ liệu từ bộ nhớ.
 Tiết kiệm năng lượng vì truy cập cache tiêu thụ ít điện hơn so với truy xuất RAM.
 
-1.5. Xu hướng hiện đại và nhu cầu của các hệ thống đa lõi
+**1.5. Xu hướng hiện đại và nhu cầu của các hệ thống đa lõi**
 
 Với các CPU nhiều lõi, nhu cầu về cache nhiều cấp càng trở nên quan trọng hơn do L3 cache giúp các lõi chia sẻ dữ liệu chung, giảm thiểu truy cập bộ nhớ chính. Cache nhiều cấp giúp tối ưu hiệu suất trên hệ thống đa lõi, tránh tình trạng mỗi lõi phải truy cập RAM liên tục, gây nghẽn cổ chai. Bộ nhớ ngày càng lớn hơn, nhưng CPU cũng ngày càng nhanh hơn, làm cho vấn đề memory gap vẫn tồn tại.
 
-2. Cấu trúc cache nhiều cấp
+### 2. Cấu trúc cache nhiều cấp
 
-2.1. Kiến trúc cache 3 lớp (3 levels cache: L1,L2,L3)
+**2.1. Kiến trúc cache 3 lớp (3 levels cache: L1,L2,L3)**
 
 Cache nhiều cấp (3 level) là một thành phần quan trọng trong kiến trúc bộ nhớ hiện đại, giúp giảm độ trễ khi truy cập dữ liệu và tối ưu hóa hiệu suất của CPU. Hình dưới đây miêu tả cấu trúc cache với ba cấp chính, bao gồm:
 
@@ -110,7 +110,7 @@ Cache nhiều cấp (3 level) là một thành phần quan trọng trong kiến 
 
 Mỗi cấp độ cache có các đặc điểm về dung lượng, độ trễ, cách thức tổ chức và vai trò trong hệ thống. Chúng ta sẽ phân tích kỹ từng cấp độ này.
 
-2.2. L1 Cache - Bộ nhớ đệm cấp 1
+**2.2. L1 Cache - Bộ nhớ đệm cấp 1**
 
 Vị trí và mục đích: Được tích hợp trực tiếp bên trong lõi CPU, có độ trễ cực thấp (~1-4 chu kỳ xung nhịp). Mục tiêu chính là cung cấp dữ liệu và lệnh ngay lập tức cho CPU, giảm số lần truy cập L2 cache hoặc RAM.
 Cấu trúc: 
@@ -129,7 +129,7 @@ Băng thông: Rất cao (~1-2TB/s trên các CPU hiện đại)
 Hiệp phương pháp ánh xạ (Mapping strategy):
 Thường sử dụng set-associative cache (8-way hoặc 16-way) để cân bằng giữa tốc độ và tỉ lệ hit/miss. Ở hình trên CPU tiêu chuẩn của Intel sẽ có L1 vào khoảng 8 đến 12 ways cho L1 cache. Một số CPU áp dụng direct-mapped cache để đơn giản hóa truy cập, tuy nhiên việc này không phổ biến và chỉ áp dụng đối với những CPU được thiết kế cho các mục đích chuyên biệt.
 
-2.3. L2 Cache - Bộ nhớ đệm cấp 2 
+**2.3. L2 Cache - Bộ nhớ đệm cấp 2** 
 
 Vị trí và mục đích: \
 Nằm trong lõi CPU nhưng có tốc độ chậm hơn L1. Mục tiêu là giảm miss rate của L1 bằng cách lưu trữ nhiều dữ liệu hơn. L2 cache thường là cache độc quyền (exclusive), nghĩa là dữ liệu trong L1 sẽ không tồn tại trong L2 để tối ưu không gian. Tuy nhiên, một số kiến trúc sử dụng cache hòa hợp (inclusive), nơi L2 chứa toàn bộ dữ liệu của L1.
@@ -142,7 +142,7 @@ Băng thông: Trung bình (~500GB/s)
 Hiệp phương pháp ánh xạ (Mapping strategy):
 Thường là 16-way hoặc 32-way set associative để tăng hiệu suất tìm kiếm dữ liệu. Đối với CPU core i5 trên thì cache L2 là 20 ways.
 
-2.4. L3 Cache - Bộ nhớ đệm cấp 3
+**2.4. L3 Cache - Bộ nhớ đệm cấp 3**
 
 Vị trí và mục đích:  
 Nằm bên ngoài các lõi riêng lẻ, được chia sẻ giữa nhiều lõi CPU. Đóng vai trò như một buffer trung gian giữa L2 Cache và RAM. Giảm tải truy cập RAM, đặc biệt quan trọng trong CPU đa lõi (multi-core processors).
@@ -170,14 +170,14 @@ Dưới đây là bảng so sánh các phân cấp cache mà tác giả tổng h
 ![alt text](image/compare_cache_level.png)
 
 
-3. Cache phân chia (banked) vs cache hợp nhất (unified)
+### 3. Cache phân chia (banked) vs cache hợp nhất (unified)
 
 Trong kiến trúc bộ nhớ đệm, cache có thể được tổ chức theo hai cách chính: 
 - Cache phân chia (Banked Cache) – Chia nhỏ thành các phần riêng biệt để tăng hiệu quả truy xuất.
 - Cache hợp nhất (Unified Cache) – Dùng chung một không gian lưu trữ cho cả dữ liệu và lệnh.
 Mỗi phương pháp đều có ưu và nhược điểm, ảnh hưởng đến hiệu suất của CPU theo các yếu tố như băng thông, độ trễ, hit rate, và mức độ song song.
 
-3.1. Banked cache - Cache phân chia 
+**3.1. Banked cache - Cache phân chia**
 
 Định nghĩa: Cache được chia thành các "bank" độc lập, mỗi bank có thể xử lý một phần dữ liệu khác nhau. Cách tổ chức này tăng băng thông và khả năng truy xuất song song, giúp cải thiện hiệu suất trong các hệ thống đa lõi hoặc kiến trúc siêu phân luồng (hyper-threading).
 
@@ -206,7 +206,7 @@ Nhược điểm:
 - Phức tạp hơn cache hợp nhất, yêu cầu logic quản lý nâng cao. 
 - Có thể gặp vấn đề cache bank conflict nếu nhiều yêu cầu truy cập vào cùng một bank. 
 
-3.2. Unified cache - Cache hợp nhất
+**3.2. Unified cache - Cache hợp nhất**
 
 Định nghĩa:  Dùng chung một bộ nhớ cache cho cả lệnh và dữ liệu, thay vì tách riêng như banked cache. Phổ biến ở L2, L3 Cache, đặc biệt trên các hệ thống đa lõi. 
 
@@ -237,14 +237,14 @@ Unified cache phù hợp khi:
 
 CPU hiện đại kết hợp cả hai phương pháp, L1 Cache luôn là banked (I-Cache + D-Cache) để tăng hiệu suất. L2 & L3 Cache thường là unified để tối ưu không gian lưu trữ. Còn GPU hiện đại thì ưu tiên unified cache.
 
-4. Phân tích hiệu suất cache nhiều cấp 
+### 4. Phân tích hiệu suất cache nhiều cấp 
 
 Bộ nhớ cache nhiều cấp (L1, L2, L3) giúp tăng tốc độ truy xuất dữ liệu, nhưng hiệu suất của nó phụ thuộc vào miss rate và độ trễ truy cập trung bình (AMAT - Average Memory Access Time). Để đánh giá hiệu suất cache, ta xem xét:
 - Miss rate local vs global – Phân tích tỷ lệ cache miss ở từng cấp.
 - Công thức AMAT cho cache nhiều cấp – Xác định thời gian truy cập trung bình dựa trên hit/miss ở từng mức.
 
 
-4.1. Miss Rate Local và Global \
+**4.1. Miss Rate Local và Global** \
 Định nghĩa: Tỷ lệ trượt cục bộ là tỷ lệ cache miss tại một cấp cache cụ thể, được tính bằng công thức: 
 $$Local\:Miss\:Rate = \frac{Miss\:count\:at\:cache\:level\:n}{Total\:request\:to\:cache\:level\:n}$$
 
@@ -269,7 +269,7 @@ $$Global\:miss\:rate = \frac{100}{1,000,000} = 0.01\%$$
 
 Dù từng mức cache có tỷ lệ miss, nhưng cache nhiều cấp giúp giảm đáng kể số lần truy xuất RAM.
 
-4.2. Công thức AMAT (Average Memory Access Time) cho cache nhiều cấp 
+**4.2. Công thức AMAT (Average Memory Access Time) cho cache nhiều cấp**
 
 AMAT thể hiện thời gian truy cập bộ nhớ trung bình, được tính bằng:
 $$AMAT = T_{L1} + (MissRate_{L1} \times T_{L2}) + (MissRate_{L1} \times MissRate_{L2} \times T_{L3}) + (MissRate_{L1} \times MissRate_{L2} \times MissRate_{L3} \times T_{RAM})$$
