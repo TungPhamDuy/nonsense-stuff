@@ -13,3 +13,8 @@
 - crt + s: lưu thay đổi
 - crt + enter: viết commit message
 - crt + shift + p: push thay đổi lên repo
+là một thằng gà thì sẽ xài qua UI, còn đỡ hơn một chút thì xài qua git cmd đi nào:
+- git add .: thêm tất cả các thay đổi vào vùng nhớ tạm
+- git commit -m *commit-message*: commit các thay đổi và điền note cho commit
+- git push: đẩy lên repo
+có thể sử dụng ';' (dấu cách lệnh trong powershell) ở giữa các lên trên để nối các lệnh và thực hiện một lần.
