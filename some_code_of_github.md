@@ -16,5 +16,11 @@
 là một thằng gà thì sẽ xài qua UI, còn đỡ hơn một chút thì xài qua git cmd đi nào:
 - git add .: thêm tất cả các thay đổi vào vùng nhớ tạm
 - git commit -m *commit-message*: commit các thay đổi và điền note cho commit
-- git push: đẩy lên repo
+- git push: đẩy lên repo  
 có thể sử dụng ';' (dấu cách lệnh trong powershell) ở giữa các lên trên để nối các lệnh và thực hiện một lần.
+10. có nhiều loại terminal: cmd, powershell, git. terminal là giao diện command line interface (CLI) để tương tác với hệ điều hành. 
+- cmd: mặc định của window, cổ điển, cú pháp lệnh đơn giản, không phù hợp với các lệnh unix-like
+- powershell: hiện tại, sử dụng rộng rãi, câu lệnh cmdlet mạnh mẽ, quản trị hệ thống, tự động hoá, chạy được lệnh của cmd luôn
+- git bash: là CLI cho git, chủ yếu để làm việc với git hoi, chạy được git trong cmd và powershell.
+
+
