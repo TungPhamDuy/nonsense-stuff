@@ -1,7 +1,7 @@
 # Một vài lệnh cơ bản của Git
 
-1. Git không phải github
-2. git clone *link-repo-that-need-to-clone-to-local*: Clone repository về máy local
+1. git không phải github
+2. `git clone *link-repo-that-need-to-clone-to-local*`: Clone repository về máy local
 3. git remote -v: Check hiển thị thông tin về remote repository mà máy kết nối
 4. git pull origin master/main: Kéo nguyên nhánh chính về local
 5. git checkout -b *name-of-new-branch*: Tạo branch mới
