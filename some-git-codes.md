@@ -10,9 +10,9 @@
 8. tại sao là pull request mà không phải là push request?  
 - vì pull (kéo) miêu tả hành động nhánh chính kéo chỉnh sửa của nhánh phụ về chính nó, request (yêu cầu) là hành động nhánh phụ gửi yêu cầu đến nhánh chính xin phép được merge những thay đổi của nó vào. không phải push vì đơn giản là nhánh phụ không có quyền ép (đẩy) sự thay đổi của nó vào nhánh chính mà khi không được chấp nhận.
 9. chuỗi phím để save, commit và push change lên repo tốc độ:
-- `crt + s`: lưu thay đổi
-- `crt + enter`: viết commit message
-- `crt + shift + p`: push thay đổi lên repo
+- `crt + s`: lưu thay đổi   
+- `crt + enter`: viết commit message    
+- `crt + shift + p`: push thay đổi lên repo 
 là một thằng gà thì sẽ xài qua UI, còn đỡ hơn một chút thì xài qua git cmd đi nào:
 - `git add .`: thêm tất cả các thay đổi vào vùng nhớ tạm
 - `git commit -m *commit-message*`: commit các thay đổi và điền note cho commit
