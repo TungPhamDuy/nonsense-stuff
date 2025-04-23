@@ -23,3 +23,4 @@ có thể sử dụng `;` (dấu cách lệnh trong powershell) ở giữa các 
 - `powershell`: hiện tại, sử dụng rộng rãi, câu lệnh cmdlet mạnh mẽ, quản trị hệ thống, tự động hoá, chạy được lệnh của cmd luôn
 - `git bash`: là CLI cho git, chủ yếu để làm việc với git hoi, chạy được git trong cmd và powershell.
 11. `git push --set-upstream origin *branch-that-need-to-connect-upstream*`: Gắn branch hiện tại với branch trên repo để push lên.
+  
